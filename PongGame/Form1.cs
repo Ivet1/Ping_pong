@@ -14,6 +14,10 @@ namespace Ping_pong
     public partial class Form1 : Form
     {
         Ball ball;
+        bool start = true;
+        int seconds = 650;
+        int time = 20;
+        int sumTime;
         int playerScore = 0;
         int aiScore = 0;
         Panel playerPlatform;
@@ -49,7 +53,13 @@ namespace Ping_pong
         {
             if (ball.SpeedX < 0)
             {
-                int speed = 5;
+                if (seconds > sumTime)
+                {
+                    sumTime += time;
+                    return;
+                }
+
+                int speed = random.Next(3,5);
                 int ballCenter = ball.Y + ball.Height / 2;
                 int platformCenter = enemyPlatform.Top + enemyPlatform.Height / 2;
                 int error = random.Next(-10, 10);
@@ -69,17 +79,21 @@ namespace Ping_pong
                 ball.ReverseY();
             if (ball.Picture.Bounds.IntersectsWith(playerPlatform.Bounds) ||
                     ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
+            {
                 ball.ReverseX();
-            if (ball.X <= 0)
+                sumTime = 0;
+            }
+                
+            if (ball.X <= 0 || enemyPlatform.Location.X + enemyPlatform.Width - 10 > ball.X)
             {
                 playerScore++;
-                PlayerScore.Text = "Player" + playerScore;
+                PlayerScore.Text = "Player " + playerScore;
                 ResetBall();
             }
-            else if (ball.X + ball.Width >= this.ClientSize.Width)
+            else if (ball.X + ball.Width >= this.ClientSize.Width || playerPlatform.Location.X + 10 < ball.X + ball.Width)
             {
                 aiScore++;
-                AIScore.Text = "Ai"+aiScore;
+                AIScore.Text = "Ai "+aiScore;
                 ResetBall();
             }
         }

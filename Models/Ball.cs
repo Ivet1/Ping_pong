@@ -78,9 +78,9 @@ namespace Ping_pong.Models
             SpeedX = -SpeedX;
             //slight increase in speed after each hit
             if (SpeedX > 0)
-                    SpeedX += 1;
-                else
-                    SpeedX -= 1;
+                SpeedX += 1;
+            else
+                SpeedX -= 1;
         }
         public void ReverseY()
         {
