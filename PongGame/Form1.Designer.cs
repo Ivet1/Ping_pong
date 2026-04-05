@@ -41,6 +41,7 @@
             // 
             // PlayerPlatform
             // 
+            this.PlayerPlatform.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.PlayerPlatform.BackColor = System.Drawing.Color.DarkGreen;
             this.PlayerPlatform.Location = new System.Drawing.Point(759, 141);
             this.PlayerPlatform.Name = "PlayerPlatform";
@@ -89,7 +90,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 20;
+            this.timer1.Interval = 15;
             // 
             // Form1
             // 
