@@ -8,6 +8,10 @@ namespace Ping_pong
     public partial class Form1 : Form
     {
         Ball ball;
+        bool start = true;
+        int seconds = 650;
+        int time = 20;
+        int sumTime;
         int playerScore = 0;
         int aiScore = 0;
         Panel playerPlatform;
@@ -73,7 +77,17 @@ namespace Ping_pong
 
             if (ball.SpeedX < 0) 
             {
+<<<<<<< HEAD
                 int speed = 6;
+=======
+                if (seconds > sumTime)
+                {
+                    sumTime += time;
+                    return;
+                }
+
+                int speed = random.Next(3,5);
+>>>>>>> ab50bf18c1d3cf1e3d53a7a07d56aae5dbf6fef9
                 int ballCenter = ball.Y + ball.Height / 2;
                 int platformCenter = enemyPlatform.Top + enemyPlatform.Height / 2;
                 int error = random.Next(-40, 40); 
@@ -91,6 +105,7 @@ namespace Ping_pong
                 ball.ReverseY();
 
             if (ball.Picture.Bounds.IntersectsWith(playerPlatform.Bounds) ||
+<<<<<<< HEAD
                 ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
                 ball.ReverseX();
 
@@ -98,14 +113,30 @@ namespace Ping_pong
             {
                 playerScore++;
                 PlayerScore.Text = "Player: " + playerScore;
+=======
+                    ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
+            {
+                ball.ReverseX();
+                sumTime = 0;
+            }
+                
+            if (ball.X <= 0 || enemyPlatform.Location.X + enemyPlatform.Width - 10 > ball.X)
+            {
+                playerScore++;
+                PlayerScore.Text = "Player " + playerScore;
+>>>>>>> ab50bf18c1d3cf1e3d53a7a07d56aae5dbf6fef9
                 ResetBall();
                 CheckGameOver();
                 return;
             }
-            else if (ball.X + ball.Width >= this.ClientSize.Width)
+            else if (ball.X + ball.Width >= this.ClientSize.Width || playerPlatform.Location.X + 10 < ball.X + ball.Width)
             {
                 aiScore++;
+<<<<<<< HEAD
                 AIScore.Text = "AI: " + aiScore;
+=======
+                AIScore.Text = "Ai "+aiScore;
+>>>>>>> ab50bf18c1d3cf1e3d53a7a07d56aae5dbf6fef9
                 ResetBall();
                 CheckGameOver();
                 return;
