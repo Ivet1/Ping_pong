@@ -45,7 +45,7 @@ namespace Ping_pong
         {
             if (gameOver) return;
 
-            int speed = 12; 
+            int speed = 12;
             if (moveUp && playerPlatform.Top > 0)
                 playerPlatform.Top -= speed;
             if (moveDown && playerPlatform.Bottom < this.ClientSize.Height)
@@ -55,6 +55,7 @@ namespace Ping_pong
             ball.Move();
             CheckCollisions();
         }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Up)
@@ -70,27 +71,24 @@ namespace Ping_pong
             if (e.KeyCode == Keys.Down)
                 moveDown = false;
         }
+
         private void MoveAI()
         {
             aiDelayCounter++;
-            if (aiDelayCounter % 2 != 0) return; 
+            if (aiDelayCounter % 2 != 0) return;
 
-            if (ball.SpeedX < 0) 
+            if (ball.SpeedX < 0)
             {
-<<<<<<< HEAD
-                int speed = 6;
-=======
                 if (seconds > sumTime)
                 {
                     sumTime += time;
                     return;
                 }
 
-                int speed = random.Next(3,5);
->>>>>>> ab50bf18c1d3cf1e3d53a7a07d56aae5dbf6fef9
+                int speed = random.Next(3, 6);
                 int ballCenter = ball.Y + ball.Height / 2;
                 int platformCenter = enemyPlatform.Top + enemyPlatform.Height / 2;
-                int error = random.Next(-40, 40); 
+                int error = random.Next(-40, 40);
 
                 if (ballCenter + error < platformCenter && enemyPlatform.Top > 0)
                     enemyPlatform.Top -= speed;
@@ -105,43 +103,30 @@ namespace Ping_pong
                 ball.ReverseY();
 
             if (ball.Picture.Bounds.IntersectsWith(playerPlatform.Bounds) ||
-<<<<<<< HEAD
                 ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
+            {
                 ball.ReverseX();
+                sumTime = 0;
+            }
 
             if (ball.X <= 0)
             {
                 playerScore++;
                 PlayerScore.Text = "Player: " + playerScore;
-=======
-                    ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
-            {
-                ball.ReverseX();
-                sumTime = 0;
-            }
-                
-            if (ball.X <= 0 || enemyPlatform.Location.X + enemyPlatform.Width - 10 > ball.X)
-            {
-                playerScore++;
-                PlayerScore.Text = "Player " + playerScore;
->>>>>>> ab50bf18c1d3cf1e3d53a7a07d56aae5dbf6fef9
                 ResetBall();
                 CheckGameOver();
                 return;
             }
-            else if (ball.X + ball.Width >= this.ClientSize.Width || playerPlatform.Location.X + 10 < ball.X + ball.Width)
+            else if (ball.X + ball.Width >= this.ClientSize.Width)
             {
                 aiScore++;
-<<<<<<< HEAD
                 AIScore.Text = "AI: " + aiScore;
-=======
-                AIScore.Text = "Ai "+aiScore;
->>>>>>> ab50bf18c1d3cf1e3d53a7a07d56aae5dbf6fef9
                 ResetBall();
                 CheckGameOver();
                 return;
             }
         }
+
         private void CheckGameOver()
         {
             if (playerScore >= maxScore)
@@ -157,6 +142,7 @@ namespace Ping_pong
                 ResetGame();
             }
         }
+
         private void ResetBall()
         {
             ball.X = this.ClientSize.Width / 2 - ball.Width / 2;
@@ -164,6 +150,7 @@ namespace Ping_pong
             ball.SpeedX = random.Next(0, 2) == 0 ? 5 : -5;
             ball.SpeedY = random.Next(-3, 3);
         }
+
         private void ResetGame()
         {
             playerScore = 0;
