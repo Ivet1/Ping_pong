@@ -22,7 +22,6 @@ namespace Ping_pong
 
         bool moveUp = false;
         bool moveDown = false;
-        int aiDelayCounter = 0;
 
         public Form1()
         {
@@ -37,7 +36,7 @@ namespace Ping_pong
             this.KeyUp += Form1_KeyUp;
 
             timer1.Tick += Timer1_Tick;
-            timer1.Interval = 20;
+            timer1.Interval = time;
             timer1.Start();
         }
 
@@ -45,7 +44,7 @@ namespace Ping_pong
         {
             if (gameOver) return;
 
-            int speed = 12;
+            int speed = 6;
             if (moveUp && playerPlatform.Top > 0)
                 playerPlatform.Top -= speed;
             if (moveDown && playerPlatform.Bottom < this.ClientSize.Height)
@@ -74,9 +73,6 @@ namespace Ping_pong
 
         private void MoveAI()
         {
-            aiDelayCounter++;
-            if (aiDelayCounter % 2 != 0) return;
-
             if (ball.SpeedX < 0)
             {
                 if (seconds > sumTime)
@@ -88,7 +84,7 @@ namespace Ping_pong
                 int speed = random.Next(3, 6);
                 int ballCenter = ball.Y + ball.Height / 2;
                 int platformCenter = enemyPlatform.Top + enemyPlatform.Height / 2;
-                int error = random.Next(-40, 40);
+                int error = random.Next(-10, 10);
 
                 if (ballCenter + error < platformCenter && enemyPlatform.Top > 0)
                     enemyPlatform.Top -= speed;
@@ -109,7 +105,7 @@ namespace Ping_pong
                 sumTime = 0;
             }
 
-            if (ball.X <= 0)
+            if (ball.X <= 10)
             {
                 playerScore++;
                 PlayerScore.Text = "Player: " + playerScore;
@@ -117,7 +113,7 @@ namespace Ping_pong
                 CheckGameOver();
                 return;
             }
-            else if (ball.X + ball.Width >= this.ClientSize.Width)
+            else if (ball.X + ball.Width >= this.ClientSize.Width - 10)
             {
                 aiScore++;
                 AIScore.Text = "AI: " + aiScore;
