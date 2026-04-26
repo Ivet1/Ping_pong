@@ -58,7 +58,7 @@ namespace Ping_pong
 
         public void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            int speed = 15; // Малко по-бърза реакция на играча
+            int speed = 15;
             if (e.KeyCode == Keys.Up && playerPlatform.Top > 0)
                 playerPlatform.Top -= speed;
             if (e.KeyCode == Keys.Down && playerPlatform.Bottom < this.ClientSize.Height)
