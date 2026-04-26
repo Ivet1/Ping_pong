@@ -36,13 +36,17 @@
             this.PlayerScore = new System.Windows.Forms.Label();
             this.AIScore = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblPlaying = new System.Windows.Forms.Label();
+            this.lblLoseWin = new System.Windows.Forms.Label();
+            this.timerForReset = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxBall)).BeginInit();
             this.SuspendLayout();
             // 
             // PlayerPlatform
             // 
             this.PlayerPlatform.BackColor = System.Drawing.Color.DarkGreen;
-            this.PlayerPlatform.Location = new System.Drawing.Point(759, 141);
+            this.PlayerPlatform.Location = new System.Drawing.Point(759, 128);
             this.PlayerPlatform.Name = "PlayerPlatform";
             this.PlayerPlatform.Size = new System.Drawing.Size(29, 118);
             this.PlayerPlatform.TabIndex = 0;
@@ -91,12 +95,48 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 20;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(354, 392);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 16);
+            this.label1.TabIndex = 5;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // lblPlaying
+            // 
+            this.lblPlaying.AutoSize = true;
+            this.lblPlaying.Location = new System.Drawing.Point(339, 376);
+            this.lblPlaying.Name = "lblPlaying";
+            this.lblPlaying.Size = new System.Drawing.Size(99, 16);
+            this.lblPlaying.TabIndex = 6;
+            this.lblPlaying.Text = "Playing game...";
+            // 
+            // lblLoseWin
+            // 
+            this.lblLoseWin.AutoSize = true;
+            this.lblLoseWin.Location = new System.Drawing.Point(386, 348);
+            this.lblLoseWin.Name = "lblLoseWin";
+            this.lblLoseWin.Size = new System.Drawing.Size(14, 16);
+            this.lblLoseWin.TabIndex = 7;
+            this.lblLoseWin.Text = "=";
+            // 
+            // timerForReset
+            // 
+            this.timerForReset.Enabled = true;
+            this.timerForReset.Interval = 300;
+            this.timerForReset.Tick += new System.EventHandler(this.timerForReset_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblLoseWin);
+            this.Controls.Add(this.lblPlaying);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.AIScore);
             this.Controls.Add(this.PlayerScore);
             this.Controls.Add(this.PictureBoxBall);
@@ -104,6 +144,7 @@
             this.Controls.Add(this.PlayerPlatform);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxBall)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -118,6 +159,10 @@
         private System.Windows.Forms.Label PlayerScore;
         private System.Windows.Forms.Label AIScore;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblPlaying;
+        private System.Windows.Forms.Label lblLoseWin;
+        private System.Windows.Forms.Timer timerForReset;
     }
 }
 
