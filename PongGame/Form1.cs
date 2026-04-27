@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ping_pong.Models;
 
@@ -14,6 +8,10 @@ namespace Ping_pong
     public partial class Form1 : Form
     {
         Ball ball;
+        bool start = true;
+        int seconds = 650;
+        int time = 20;
+        int sumTime;
         int playerScore = 0;
         int aiScore = 0;
         Panel playerPlatform;
@@ -24,15 +22,16 @@ namespace Ping_pong
         {
             InitializeComponent();
 
-            // Инициализация на обектите
             ball = new Ball(PictureBoxBall);
             playerPlatform = PlayerPlatform;
             enemyPlatform = EnemyPlatform;
 
             this.KeyPreview = true;
+            this.KeyDown += Form1_KeyDown;
+            this.KeyUp += Form1_KeyUp;
 
-            // Настройки на таймерите
-            timer1.Interval = 20; // Около 50 кадъра в секунда
+            timer1.Tick += Timer1_Tick;
+            timer1.Interval = time;
             timer1.Start();
 
             timerForReset.Interval = 3000; // 3 секунди пауза при победа/загуба
@@ -51,44 +50,59 @@ namespace Ping_pong
         // Основен гейм цикъл
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (gameOver) return;
+
+            int speed = 6;
+            if (moveUp && playerPlatform.Top > 0)
+                playerPlatform.Top -= speed;
+            if (moveDown && playerPlatform.Bottom < this.ClientSize.Height)
+                playerPlatform.Top += speed;
+
             MoveAI();
             ball.Move();
             CheckCollisions();
         }
 
-        public void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            int speed = 15;
-            if (e.KeyCode == Keys.Up && playerPlatform.Top > 0)
-                playerPlatform.Top -= speed;
-            if (e.KeyCode == Keys.Down && playerPlatform.Bottom < this.ClientSize.Height)
-                playerPlatform.Top += speed;
+            if (e.KeyCode == Keys.Up)
+                moveUp = true;
+            if (e.KeyCode == Keys.Down)
+                moveDown = true;
         }
 
-        public void MoveAI()
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+                moveUp = false;
+            if (e.KeyCode == Keys.Down)
+                moveDown = false;
+        }
+
+        private void MoveAI()
         {
             
             if (ball.SpeedX < 0)
             {
-                int speed = 6;
+                if (seconds > sumTime)
+                {
+                    sumTime += time;
+                    return;
+                }
+
+                int speed = random.Next(3, 6);
                 int ballCenter = ball.Y + ball.Height / 2;
                 int platformCenter = enemyPlatform.Top + enemyPlatform.Height / 2;
-
-                // Малка грешка за по-реалистично поведение
-                int error = random.Next(-15, 15);
+                int error = random.Next(-10, 10);
 
                 if (ballCenter + error < platformCenter && enemyPlatform.Top > 0)
-                {
                     enemyPlatform.Top -= speed;
-                }
                 else if (ballCenter + error > platformCenter && enemyPlatform.Bottom < this.ClientSize.Height)
-                {
                     enemyPlatform.Top += speed;
-                }
             }
         }
 
-        public void CheckCollisions()
+        private void CheckCollisions()
         {
             int maxPoints = 3;
 
@@ -96,17 +110,15 @@ namespace Ping_pong
             if (ball.Y <= 0 || ball.Y + ball.Height >= this.ClientSize.Height)
             {
                 ball.ReverseY();
-            }
 
-            // Сблъсък с платформите (използваме Bounds на PictureBox)
             if (ball.Picture.Bounds.IntersectsWith(playerPlatform.Bounds) ||
                 ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
             {
                 ball.ReverseX();
+                sumTime = 0;
             }
 
-            // Проверка за точка
-            if (ball.X <= 0) // Топката излиза отляво (AI пропуска)
+            if (ball.X <= 10)
             {
                 playerScore++;
                 PlayerScore.Text = "Player: " + playerScore;
