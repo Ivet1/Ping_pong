@@ -8,6 +8,8 @@ namespace Ping_pong
     public partial class Form1 : Form
     {
         Ball ball;
+        bool moveUp;
+        bool moveDown;
         bool start = true;
         int seconds = 650;
         int time = 20;
@@ -30,7 +32,7 @@ namespace Ping_pong
             this.KeyDown += Form1_KeyDown;
             this.KeyUp += Form1_KeyUp;
 
-            timer1.Tick += Timer1_Tick;
+            timer1.Tick += timer1_Tick;
             timer1.Interval = time;
             timer1.Start();
 
@@ -38,7 +40,7 @@ namespace Ping_pong
             timerForReset.Enabled = false;
 
             // Свързване на събитията (Events)
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            //this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             this.timerForReset.Tick += new System.EventHandler(this.timerForReset_Tick);
             this.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
 
@@ -50,7 +52,6 @@ namespace Ping_pong
         // Основен гейм цикъл
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (gameOver) return;
 
             int speed = 6;
             if (moveUp && playerPlatform.Top > 0)
@@ -108,28 +109,30 @@ namespace Ping_pong
 
             // Сблъсък с тавана и пода
             if (ball.Y <= 0 || ball.Y + ball.Height >= this.ClientSize.Height)
-            {
+            
                 ball.ReverseY();
 
-            if (ball.Picture.Bounds.IntersectsWith(playerPlatform.Bounds) ||
-                ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
-            {
-                ball.ReverseX();
-                sumTime = 0;
-            }
+                if (ball.Picture.Bounds.IntersectsWith(playerPlatform.Bounds) ||
+                    ball.Picture.Bounds.IntersectsWith(enemyPlatform.Bounds))
+                {
+                    ball.ReverseX();
+                    sumTime = 0;
+                }
 
-            if (ball.X <= 10)
-            {
-                playerScore++;
-                PlayerScore.Text = "Player: " + playerScore;
-                CheckGameState(maxPoints);
-            }
-            else if (ball.X + ball.Width >= this.ClientSize.Width) // Излиза отдясно (Играч пропуска)
-            {
-                aiScore++;
-                AIScore.Text = "AI: " + aiScore;
-                CheckGameState(maxPoints);
-            }
+                if (ball.X <= 10)
+                {
+                    playerScore++;
+                    PlayerScore.Text = "Player: " + playerScore;
+                    CheckGameState(maxPoints);
+                    return;
+                }
+                else if (ball.X + ball.Width >= this.ClientSize.Width) // Излиза отдясно (Играч пропуска)
+                {
+                    aiScore++;
+                    AIScore.Text = "AI: " + aiScore;
+                    CheckGameState(maxPoints);
+                    return;
+                }
         }
 
         private void CheckGameState(int maxPoints)
