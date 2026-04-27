@@ -67,7 +67,7 @@ namespace Ping_pong
 
         public void MoveAI()
         {
-            // AI се движи само ако топката лети към него (наляво)
+            
             if (ball.SpeedX < 0)
             {
                 int speed = 6;
